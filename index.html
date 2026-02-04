@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>👑 PARDON : ÉDITION GALACTIQUE 👑</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;900&family=Pacifico&display=swap');
+
+        :root {
+            --gold: #ffd700;
+            --diamond: #b9f2ff;
+            --royal-purple: #6c5ce7;
+            --heart-red: #ff7675;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            font-family: 'Montserrat', sans-serif;
+            background: #0f0c29;
+            background: linear-gradient(to bottom, #24243e, #302b63, #0f0c29);
+            color: white;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* --- ÉCRAN DE CHARGEMENT --- */
+        #loading-screen {
+            position: fixed;
+            inset: 0;
+            background: black;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 1s;
+        }
+
+        .loader {
+            border: 10px solid #f3f3f3;
+            border-top: 10px solid var(--gold);
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* --- CONTENEUR PRINCIPAL --- */
+        .main-container {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 40px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            max-width: 600px;
+            width: 90%;
+            transform: scale(0.9);
+            animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes popIn { to { transform: scale(1); } }
+
+        h1 {
+            font-family: 'Pacifico', cursive;
+            font-size: 3rem;
+            margin: 0;
+            background: linear-gradient(to right, var(--gold), var(--diamond));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-weight: 900;
+            letter-spacing: 2px;
+            color: var(--diamond);
+            margin-bottom: 30px;
+        }
+
+        /* --- OPTIONS DE LUXE --- */
+        .option-card {
+            background: rgba(255, 255, 255, 0.05);
+            margin: 15px 0;
+            padding: 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .option-card:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--gold);
+            transform: translateX(10px);
+        }
+
+        .option-icon { font-size: 2rem; }
+        .option-text { text-align: left; flex-grow: 1; margin-left: 20px; }
+        .option-price { font-weight: 900; color: var(--gold); }
+
+        /* --- EFFETS --- */
+        .money-bill {
+            position: fixed;
+            font-size: 2.5rem;
+            z-index: 500;
+            pointer-events: none;
+            animation: moneyFall 3s linear forwards;
+        }
+
+        @keyframes moneyFall {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* --- OVERLAY FINAL --- */
+        #success-overlay {
+            position: fixed;
+            inset: 0;
+            background: white;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            color: #333;
+            text-align: center;
+        }
+
+        .btn-final {
+            background: var(--royal-purple);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 50px;
+            border: none;
+            font-size: 1.5rem;
+            font-weight: 900;
+            cursor: pointer;
+            margin-top: 30px;
+            box-shadow: 0 10px 20px rgba(108, 92, 231, 0.4);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="loading-screen">
+        <div class="loader"></div>
+        <p style="margin-top: 20px; font-weight: bold; letter-spacing: 3px;">INITIALISATION DU PARDON...</p>
+    </div>
+
+    <div class="main-container">
+        <div style="font-size: 5rem;">🛸</div>
+        <h1>Pardon Galactique</h1>
+        <p class="subtitle">SÉLECTIONNEZ VOTRE RÉCOMPENSE</p>
+
+        <div class="option-card" onclick="triggerMoney()">
+            <div class="option-icon">💰</div>
+            <div class="option-text">
+                <strong>Rançon Immédiate</strong><br>
+                <small>Pluie de 100$ virtuels</small>
+            </div>
+            <div class="option-price">100$</div>
+        </div>
+
+        <div class="option-card" onclick="triggerRomantic()">
+            <div class="option-icon">🎭</div>
+            <div class="option-text">
+                <strong>Déclaration de la Reine</strong><br>
+                <small>Compliments excessifs et poésie</small>
+            </div>
+            <div class="option-price">OFFERT</div>
+        </div>
+
+        <div class="option-card" onclick="triggerMiracle()">
+            <div class="option-icon">✨</div>
+            <div class="option-text">
+                <strong>Le Miracle Fraternel</strong><br>
+                <small>Pardon total sans conditions</small>
+            </div>
+            <div class="option-price">GRATUIT</div>
+        </div>
+
+        <p style="margin-top: 30px; opacity: 0.6; font-size: 0.8rem;">© 2026 Agence de Réconciliation du Frère Boulet S.A.</p>
+    </div>
+
+    <div id="success-overlay">
+        <h1 style="-webkit-text-fill-color: #333; font-size: 4rem;">MERCI MA REINE ! 👑</h1>
+        <p style="font-size: 1.5rem; color: #666; max-width: 80%;">Le traité de paix a été signé.<br>Ton frère s'engage à être (presque) parfait pendant 24h.</p>
+        <div style="font-size: 8rem;">💖🍕🍦</div>
+        <button class="btn-final" onclick="window.location.reload()">RETOUR AU RÉEL</button>
+    </div>
+
+    <script>
+        // Simulation de chargement
+        setTimeout(() => {
+            document.getElementById('loading-screen').style.opacity = '0';
+            setTimeout(() => document.getElementById('loading-screen').style.display = 'none', 1000);
+        }, 2000);
+
+        function triggerMoney() {
+            for(let i=0; i<50; i++) {
+                setTimeout(() => {
+                    const bill = document.createElement('div');
+                    bill.className = 'money-bill';
+                    bill.innerText = '💵';
+                    bill.style.left = Math.random() * 100 + 'vw';
+                    bill.style.animationDuration = (Math.random() * 2 + 1) + 's';
+                    document.body.appendChild(bill);
+                    setTimeout(() => bill.remove(), 3000);
+                }, i * 100);
+            }
+            setTimeout(() => {
+                alert("Transaction réussie ! Les 100$ ont été envoyés sur ton compte imaginaire avec succès. 🤑");
+            }, 2000);
+        }
+
+        function triggerRomantic() {
+            const compliments = [
+                "Tu es plus brillante qu'une étoile de mer !",
+                "Ta patience est légendaire (surtout avec moi) !",
+                "Si la gentillesse était de l'or, tu serais la Banque de France !",
+                "Tu as toujours raison, même quand tu as tort !"
+            ];
+            alert("⚠️ ALERTE COMPLIMENTS ⚠️\n\n" + compliments.join("\n\n"));
+        }
+
+        function triggerMiracle() {
+            document.getElementById('success-overlay').style.display = 'flex';
+            confetti();
+        }
+
+        function confetti() {
+            for(let i=0; i<100; i++) {
+                const c = document.createElement('div');
+                c.className = 'money-bill';
+                c.innerText = ['✨', '🎉', '💖', '⭐'][Math.floor(Math.random()*4)];
+                c.style.left = Math.random() * 100 + 'vw';
+                c.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                document.body.appendChild(c);
+            }
+        }
+    </script>
+</body>
+</html>
