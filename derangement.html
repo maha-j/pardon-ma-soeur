@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚨 ALERTE DÉRANGEMENT MAXIMAL 🚨</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #ff00ff; /* Rose bien flash */
+            font-family: 'Comic Sans MS', cursive;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            cursor: url('https://cur.cursors-4u.net/games/gam-4/gam373.cur'), auto;
+        }
+
+        #main-box {
+            background: yellow;
+            padding: 50px;
+            border: 10px dashed red;
+            text-align: center;
+            transform: rotate(-5deg);
+            box-shadow: 20px 20px 0px black;
+            z-index: 100;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: blue;
+            animation: blink 0.2s infinite;
+        }
+
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        .btn-annoying {
+            padding: 20px 40px;
+            font-size: 1.5rem;
+            background: lime;
+            border: 5px solid black;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        .popup {
+            position: fixed;
+            background: white;
+            border: 2px solid black;
+            padding: 10px;
+            z-index: 1000;
+            box-shadow: 5px 5px 0px rgba(0,0,0,0.5);
+        }
+
+        #annoyance-level {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: black;
+            color: white;
+            padding: 10px;
+            font-size: 1.2rem;
+        }
+
+        .floating-head {
+            position: fixed;
+            font-size: 4rem;
+            pointer-events: none;
+            z-index: 50;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="main-box">
+        <h1>COUCOU TOI ! 😜</h1>
+        <p style="font-size: 1.5rem; font-weight: bold;">Tu boudes ? Tu boudes ? Hein ?</p>
+        <button class="btn-annoying" onclick="increaseAnnoyance()">NE CLIQUE PAS ICI</button>
+        <button class="btn-annoying" onclick="startSpam()">OU ICI</button>
+    </div>
+
+    <div id="annoyance-level">Niveau de dérangement : <span id="lvl">0</span>%</div>
+
+    <script>
+        let level = 0;
+        const messages = [
+            "T'es fâchée ?",
+            "Même pas cap de sourire !",
+            "Toc toc toc !",
+            "C'est qui ?",
+            "C'est ton frère préféré !",
+            "Je t'entends bouder d'ici !",
+            "Est-ce que tu veux un câlin ?",
+            "Non ? Et maintenant ?",
+            "Je vais continuer jusqu'à ce que tu rigoles !"
+        ];
+
+        function increaseAnnoyance() {
+            level += 10;
+            document.getElementById('lvl').innerText = level;
+            
+            // Faire vibrer l'écran
+            document.body.style.transform = `translate(${Math.random()*10}px, ${Math.random()*10}px)`;
+            
+            // Créer une tête flottante
+            const head = document.createElement('div');
+            head.className = 'floating-head';
+            head.innerText = '🤪';
+            head.style.left = Math.random() * 100 + 'vw';
+            head.style.top = Math.random() * 100 + 'vh';
+            document.body.appendChild(head);
+            
+            // Changer la couleur de fond aléatoirement
+            const colors = ['#ff00ff', '#00ffff', '#ffff00', '#00ff00', '#ff0000'];
+            document.body.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
+
+            if (level >= 100) {
+                alert("BRAVO ! Tu as atteint le niveau maximum de dérangement. Ton frère t'aime quand même ! ❤️");
+                level = 0;
+            }
+        }
+
+        function createPopup() {
+            const popup = document.createElement('div');
+            popup.className = 'popup';
+            popup.style.left = Math.random() * 80 + 'vw';
+            popup.style.top = Math.random() * 80 + 'vh';
+            popup.innerHTML = `
+                <strong>MESSAGE IMPORTANT :</strong><br>
+                ${messages[Math.floor(Math.random() * messages.length)]}<br>
+                <button onclick="this.parentElement.remove()">Fermer (ou pas)</button>
+            `;
+            document.body.appendChild(popup);
+        }
+
+        function startSpam() {
+            setInterval(createPopup, 2000);
+            alert("ALERTE : Mode 'Frère Collant' activé !");
+        }
+
+        // Musique de fond imaginaire (bruitages visuels)
+        setInterval(() => {
+            const noise = document.createElement('div');
+            noise.style.position = 'fixed';
+            noise.style.color = 'white';
+            noise.style.left = Math.random() * 100 + 'vw';
+            noise.style.top = Math.random() * 100 + 'vh';
+            noise.innerText = 'BIP ! BOUP ! POUET !';
+            noise.style.fontSize = '2rem';
+            noise.style.opacity = '0.5';
+            document.body.appendChild(noise);
+            setTimeout(() => noise.remove(), 1000);
+        }, 500);
+    </script>
+</body>
+</html>
