@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚠️ ALERTE ROUGE : CHAOS FRATERNEL ⚠️</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #ff0000;
+            font-family: 'Impact', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: wait;
+        }
+
+        .chaos-text {
+            font-size: 5rem;
+            color: yellow;
+            text-shadow: 5px 5px 0px blue;
+            animation: shake 0.1s infinite;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(3px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(1px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        }
+
+        .popup-chaos {
+            position: fixed;
+            background: #00ff00;
+            border: 5px solid black;
+            padding: 20px;
+            font-weight: bold;
+            box-shadow: 10px 10px 0px red;
+            z-index: 500;
+            animation: rotate-chaos 2s infinite linear;
+        }
+
+        @keyframes rotate-chaos {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .btn-start {
+            padding: 30px 60px;
+            font-size: 2rem;
+            background: yellow;
+            border: 10px solid black;
+            cursor: pointer;
+            z-index: 2000;
+        }
+
+        .annoying-img {
+            position: fixed;
+            width: 150px;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+
+    <button id="startBtn" class="btn-start" onclick="initChaos()">CLIQUE POUR TA SURPRISE 🎁</button>
+
+    <div id="chaos-msg" class="chaos-text" style="display:none;">DÉSOLÉÉÉÉÉÉ ! 🤪</div>
+
+    <script>
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playAnnoyingSound() {
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+
+            oscillator.type = 'sawtooth';
+            oscillator.frequency.setValueAtTime(Math.random() * 1000 + 200, audioCtx.currentTime);
+            
+            gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            oscillator.start();
+            oscillator.stop(audioCtx.currentTime + 0.5);
+        }
+
+        function createPopup() {
+            const popup = document.createElement('div');
+            popup.className = 'popup-chaos';
+            popup.style.left = Math.random() * 70 + 'vw';
+            popup.style.top = Math.random() * 70 + 'vh';
+            popup.innerHTML = `
+                <h2 style="margin:0">ALERTE !</h2>
+                <p>T'es toujours fâchée ?</p>
+                <p>Réponds ! Réponds !</p>
+                <button onclick="multiply(this)">NON (Impossible)</button>
+            `;
+            document.body.appendChild(popup);
+            playAnnoyingSound();
+        }
+
+        function multiply(btn) {
+            btn.parentElement.remove();
+            for(let i=0; i<3; i++) createPopup();
+        }
+
+        function initChaos() {
+            document.getElementById('startBtn').style.display = 'none';
+            document.getElementById('chaos-msg').style.display = 'block';
+            
+            // Lancer les sons en boucle
+            setInterval(playAnnoyingSound, 800);
+            
+            // Lancer les popups
+            setInterval(createPopup, 1500);
+
+            // Changer le fond frénétiquement
+            setInterval(() => {
+                const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
+                document.body.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            }, 100);
+
+            // Faire bouger le texte
+            const msg = document.getElementById('chaos-msg');
+            setInterval(() => {
+                msg.style.transform = `translate(${Math.random()*50}px, ${Math.random()*50}px) rotate(${Math.random()*20}deg)`;
+            }, 50);
+        }
+    </script>
+</body>
+</html>
